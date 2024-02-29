@@ -2,11 +2,11 @@
 
 namespace Tests\Unit;
 
-use App\Filters\V1\CustomerQuery;
+use App\Filters\V1\CustomersFilter;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
 
-class CustomerQueryTest extends TestCase
+class CustomersFilterTest extends TestCase
 {
     /** 
      * @test
@@ -20,7 +20,7 @@ class CustomerQueryTest extends TestCase
         ]);
 
         // CustomerQueryサービスをインスタンス化
-        $customerQuery = new CustomerQuery();
+        $customerQuery = new CustomersFilter();
 
         // transformメソッドを実行
         $result = $customerQuery->transform($request);
@@ -43,7 +43,7 @@ class CustomerQueryTest extends TestCase
     public function transformにパラメータを渡さなかったら空のクエリを返す()
     {
         $request = Request::create('/', 'GET');
-        $customerQuery = new CustomerQuery();
+        $customerQuery = new CustomersFilter();
         $result = $customerQuery->transform($request);
 
         $this->assertEmpty($result);
@@ -60,7 +60,7 @@ class CustomerQueryTest extends TestCase
             'name' => ['eq' => 'John Doe'],
             'unsupportedParam2' => ['eq' => 'value'],
         ]);
-        $customerQuery = new CustomerQuery();
+        $customerQuery = new CustomersFilter();
         $result = $customerQuery->transform($request);
 
         $expected = [
