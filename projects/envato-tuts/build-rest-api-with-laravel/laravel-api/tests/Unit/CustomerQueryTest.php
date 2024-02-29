@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Services\V1\CustomerQuery;
+use App\Filters\V1\CustomerQuery;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\TestCase;
 
