@@ -1,0 +1,56 @@
+<?php
+
+namespace App\Http\Requests\V1;
+
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class BulkStoreInvoiceRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            '*.customerId' => ['required', 'integer'],
+            '*.amount' => ['required', 'numeric'],
+            '*.status' => ['required', Rule::in(['B', 'P', 'V', 'b', 'p', 'v'])],
+            '*.billedDate' => ['required', 'date_format:Y-m-d'],
+            '*.paidDate' => ['date_format:Y-m-d', 'nullable'],
+        ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $transformed = [];
+
+        foreach ($this->all() as $index => $value) {
+            if (isset($value['customerId'])) {
+                $value['customer_id'] = $value['customerId'];
+            }
+
+            if (isset($value['billedDate'])) {
+                $value['billed_date'] = $value['billedDate'];
+            }
+
+            if (isset($value['paidDate'])) {
+                $value['paid_date'] = $value['paidDate'];
+            }
+
+            $transformed[$index] = $value;
+        }
+
+        $this->merge($transformed);
+    }
+}
