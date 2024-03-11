@@ -1,5 +1,8 @@
 <?php
 
+use App\Services\TokenSetupService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +18,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/setup', function () {
+    $credentials = [
+        'email' => 'admin@admin.com',
+        'password' => 'password',
+    ];
+
+    $token = new TokenSetupService($credentials);
+    return $token->create();
 });
