@@ -16,30 +16,11 @@
 </head>
 
 <body>
-    <article>
-        <h1><a href="/posts/first-post">First Post</a></h1>
-
-        <p>
-            Let's embark on a captivating journey through a serene forest, where the whispering wind carries tales of ancient wisdom. Amidst towering trees, their leaves a vibrant tapestry of greens, a narrow path weaves its way, untouched by time. Sunlight filters through the canopy, creating a dance of light and shadow, a spectacle of nature's artistry. Along this path, a gentle stream flows, its crystal waters singing songs of tranquility. Birds, with their melodious chirps, accompany the wanderer, offering a symphony of the wild. In this realm, where nature reigns supreme, every step unveils the beauty of simplicity, a reminder of the world's timeless grace.
-        </p>
-
-    </article>
-
-    <article>
-        <h1><a href="/posts/second-post">Second Post</a></h1>
-
-        <p>
-            Let's embark on a captivating journey through a serene forest, where the whispering wind carries tales of ancient wisdom. Amidst towering trees, their leaves a vibrant tapestry of greens, a narrow path weaves its way, untouched by time. Sunlight filters through the canopy, creating a dance of light and shadow, a spectacle of nature's artistry. Along this path, a gentle stream flows, its crystal waters singing songs of tranquility. Birds, with their melodious chirps, accompany the wanderer, offering a symphony of the wild. In this realm, where nature reigns supreme, every step unveils the beauty of simplicity, a reminder of the world's timeless grace.
-        </p>
-    </article>
-
-    <article>
-        <h1><a href="/posts/third-post">Third Post</a></h1>
-
-        <p>
-            Let's embark on a captivating journey through a serene forest, where the whispering wind carries tales of ancient wisdom. Amidst towering trees, their leaves a vibrant tapestry of greens, a narrow path weaves its way, untouched by time. Sunlight filters through the canopy, creating a dance of light and shadow, a spectacle of nature's artistry. Along this path, a gentle stream flows, its crystal waters singing songs of tranquility. Birds, with their melodious chirps, accompany the wanderer, offering a symphony of the wild. In this realm, where nature reigns supreme, every step unveils the beauty of simplicity, a reminder of the world's timeless grace.
-        </p>
-    </article>
+    <?php foreach ($posts as $post) : ?>
+        <article>
+            <?= $post; ?>
+        </article>
+    <?php endforeach; ?>
 </body>
 
 </html>
