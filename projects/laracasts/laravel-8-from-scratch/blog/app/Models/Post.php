@@ -4,26 +4,46 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\File;
-use Symfony\Component\Finder\SplFileInfo;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
+use SplFileInfo;
 
 class Post
 {
+    public $title;
+    public $date;
+    public $excerpt;
+    public $body;
+    public $slug;
+
+    public function __construct($title, $date, $excerpt, $body, $slug)
+    {
+        $this->title = $title;
+        $this->date = $date;
+        $this->excerpt = $excerpt;
+        $this->body = $body;
+        $this->slug = $slug;
+    }
+
     public static function all()
     {
-        $files = File::files(resource_path("posts/"));
-        return collect($files)->map(fn ($file) => $file->getContents())->toArray();
+        return collect(File::files(resource_path("posts/")))
+            ->map(function (SplFileInfo $file) {
+                $document = YamlFrontMatter::parseFile($file);
+                $slug = str_replace(".html", "", $file->getFilename());;
+
+                return new Post(
+                    $document->title,
+                    $document->date,
+                    $document->excerpt,
+                    $document->body(),
+                    $slug,
+                );
+            });
     }
 
     public static function find($slug)
     {
-        if (!file_exists($path = resource_path("/posts/{$slug}.html"))) {
-            throw new ModelNotFoundException();
-        }
-
-        return cache()->remember(
-            "posts.{$slug}",
-            now()->addMinutes(20),
-            fn () => file_get_contents($path)
-        );
+        return static::all()->firstWhere('slug', $slug)
+            ?? throw new ModelNotFoundException();
     }
 }
