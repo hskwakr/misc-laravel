@@ -58,3 +58,17 @@ docker run --rm \
     -w /var/www/html \
     laravelsail/php83-composer:latest \
     composer install --ignore-platform-reqs
+
+# .env.exampleから.envを作成
+if [ -f ".env.example" ] && [ ! -f ".env" ]; then
+    cp .env.example .env
+fi
+
+# sailコマンドの存在チェック
+if [ -f "vendor/bin/sail" ]; then
+    # コンテナ起動
+    vendor/bin/sail up -d
+
+    vendor/bin/sail artisan key:generate
+    vendor/bin/sail artisan migrate:fresh --seed
+fi
